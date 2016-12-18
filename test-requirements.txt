@@ -1,3 +1,5 @@
 hacking
+coverage
 mock
 doc8
+nose

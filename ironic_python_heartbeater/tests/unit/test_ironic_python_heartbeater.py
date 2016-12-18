@@ -2,4 +2,5 @@ import unittest
 
 
 class IronicPythonHeartbeaterTestCase(unittest.TestCase):
-    pass
+    def test_dummy(self):
+        self.assertTrue(True)
