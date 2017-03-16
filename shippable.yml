@@ -7,5 +7,6 @@ python:
 build:
   ci:
     - mkdir -p shippable/testresults
-    - pip install 'tox>=1.8'
-    - tox -epy${SHIPPABLE_PYTHON_VERSION//./} -- --with-xunit --xunit-file=shippable/testresults/nosetests.xml
+    - pip install 'tox>=1.8' testrepository junitxml
+    - tox -epy${SHIPPABLE_PYTHON_VERSION//./}
+    - testr last --subunit | subunit2junitxml > shippable/testresults/testr.xml
