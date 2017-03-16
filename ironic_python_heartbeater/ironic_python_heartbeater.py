@@ -17,7 +17,6 @@
 
 import json
 import random
-import string
 import sys
 import time
 
@@ -50,7 +49,7 @@ def _parse_kernel_cmdline():
     """Parse linux kernel command line"""
     with open('/proc/cmdline', 'rt') as f:
         cmdline = f.read()
-    return dict(map(lambda x: string.split(x, '=', 1), cmdline.split()))
+    return {k: v for k, v in [opt.split('=', 1) for opt in cmdline.split()]}
 
 
 def _get_interface_ip(mac_addr):
