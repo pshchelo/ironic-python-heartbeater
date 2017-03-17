@@ -6,12 +6,14 @@ python:
 
 build:
   ci:
+    - export PYTHONDONTWRITEBYTECODE=1
+    - export TESTS_DIR=ironic_python_heartbeater/tests/unit/
     - mkdir -p shippable/testresults
-    - pip install 'tox>=1.8' testrepository junitxml
-    - tox -epy${SHIPPABLE_PYTHON_VERSION//./}
-    - testr last --subunit | subunit2junitxml > shippable/testresults/testr.xml
+    - pip install -U -chttps://git.openstack.org/cgit/openstack/requirements/plain/upper-constraints.txt -r test-requirements.txt
+    - pip install -U -chttps://git.openstack.org/cgit/openstack/requirements/plain/upper-constraints.txt .
+    - pip install -U junitxml
+    - ostestr --subunit --no-pretty | subunit2junitxml --no-passthrough > shippable/testresults/testr.xml
   post_ci:
     - mkdir -p shippable/codecoverage
-    - pip install coverage
-    - tox -ecover
+    - coverage run --branch --include "ironic_python_heartbeater*" -m unittest discover ironic_python_heartbeater.tests.unit
     - coverage xml --omit "*tests*" -o shippable/codecoverage/coverage.xml
