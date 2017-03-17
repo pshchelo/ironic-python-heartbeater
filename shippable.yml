@@ -10,3 +10,8 @@ build:
     - pip install 'tox>=1.8' testrepository junitxml
     - tox -epy${SHIPPABLE_PYTHON_VERSION//./}
     - testr last --subunit | subunit2junitxml > shippable/testresults/testr.xml
+  post_ci:
+    - mkdir -p shippable/codecoverage
+    - pip install coverage
+    - tox -ecover
+    - coverage xml --omit "*tests*" -o shippable/codecoverage/coverage.xml
